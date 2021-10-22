@@ -1,4 +1,52 @@
 body {
   margin: 0;
+  padding: 0;
   background-color: #d0d0d0;
+}
+
+.main {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.genius {
+  display: grid;
+  grid-template-areas: 'green-area red-area'
+                       'yellow-area blue-area';
+  grid-gap: 2vmin;
+  width: 90vmin;
+  height: 90vmin;
+  padding: 3vmin; 
+  background-color: #fff;
+}
+
+.genius :hover {
+  opacity: 0.5;
+}
+
+.green {
+  grid-area: green-area;
+  background-color: green;
+  border-top-left-radius: 100%;
+}
+
+.red {
+  grid-area: red-area;
+  background-color: red;
+  border-top-right-radius: 100%;
+}
+
+.yellow {
+  grid-area: yellow-area;
+  background-color: yellow;
+  border-bottom-left-radius: 100%;
+}
+
+.blue {
+  grid-area: blue-area;
+  background-color: blue;
+  border-bottom-right-radius: 100%;
 }
