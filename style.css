@@ -23,8 +23,14 @@ body {
   background-color: #fff;
 }
 
-.genius :hover {
+/* .genius :hover {
   opacity: 0.5;
+  transition: opacity 0.2s ease-out;
+} */
+
+.genius :active, .unplay {
+  opacity: 1;
+  transition: opacity 0.5s;
 }
 
 .green {
@@ -49,4 +55,9 @@ body {
   grid-area: blue-area;
   background-color: blue;
   border-bottom-right-radius: 100%;
+}
+
+.play {
+  opacity: 0.3;
+  transition: opacity 0.5s;
 }
