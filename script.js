@@ -1,122 +1,105 @@
-/**
- * 0 - green
- * 1 - red
- * 2 - yellow
- * 3 - blue
- */
-
-const colors = ['green', 'red', 'yellow', 'blue'];
+// const colors = ['green', 'red', 'yellow', 'blue'];
 
 let order = [];
-// let selections = [];
-let step = 0;
-let score = 0;
+let level = 0;
+let checkStep = 0;
 
-function draw() {
+function drawNewColor() {
   const drawned = Math.trunc(Math.random() * 4);
-  return drawned;
-}
-
-function newColorToOrder() {
-  const drawned = draw();
 
   order.push(drawned);
 
-  printState();
-
   return drawned;
 }
 
-function check(selected) {
-  let checkStep = 0;
-  let checkStatus = false;
-
-  for (let i = 0; i < step; i++) {
-
+function right() {
+  if (checkStep < level) {
+    checkStep++;
+  } else {
+    level++;
+    checkStep = 0;
+    refreshLevelDisplay();
+    drawNewColor();
+    blinkOrder();
   }
+}
 
-
-  return order[step] === selected;
+function wrong() {
+  const restartTheGame = confirm(`Você errou!\nNível alcançado: ${level}\nDeseja recomeçar?`);
+  clear();
+  if (restartTheGame) {
+    refreshLevelDisplay();
+    drawNewColor();
+    blinkOrder();
+  }
 }
 
 function clear() {
   order = [];
-  // selections = [];
-  step = 0;
-  score = 0;
-}
-
-function right() {
-  console.log('RIGHT! :)');
-  step++;
-  score++;
-  newColorToOrder();
-  playOrder();
-}
-
-function wrong() {
-  console.log('WRONG! :(');
-  clear();
-  newColorToOrder();
-  playOrder();
-  printState();
+  level = 0;
+  checkStep = 0;
 }
 
 function newSelection(selected) {
-  // selections.push(selected);
-
-  if (check(selected)) {
+  if (selected === order[checkStep]) {
     right();
   } else {
     wrong();
   }
 }
 
-function playOne(element, i) {
-  console.log(element);
+function blinkOne(element, i) {
   setTimeout(() => {
     element.classList.add('play');
-  }, 500 + i * 1000);
+  }, 100 + i * 1000);
 
   setTimeout(() => {
     element.classList.remove('play');
-    // element.classList.add('unplay');
-  }, 1000 + i * 1000);
+  }, 610 + i * 1000);
 }
 
-function playOrder() {
-  for (let i = 0; i <= step; i++) {
-    const element = document.getElementById(String(order[i]));
+function blinkOrder() {
+  setTimeout(() => {
 
-    playOne(element, i);
-  }
+    for (let i = 0; i <= level; i++) {
+      const element = document.getElementById(String(order[i]));
+
+      blinkOne(element, i);
+    }
+
+  }, 1200);
+}
+
+function refreshLevelDisplay() {
+  levelDisplay.innerText = level + 1;
 }
 
 const geniusArea = document.querySelector('.genius');
+const levelDisplay = document.querySelector('.level');
 
 geniusArea.addEventListener('click', ({ target }) => {
-  // console.log(`${target.className} clicked`);
-
+  blinkOne(target, 0);
   newSelection(Number(target.id));
-  playOne(target, 0);
 });
 
-newColorToOrder();
-playOrder();
+drawNewColor();
+blinkOrder();
 
 
 
-/** FUNÇÕES PARA TESTES */
+/** FUNCTIONS FOR TESTS */
 
+// print application state
 function printState() {
-  console.log(`${order}\n${step}\n${score}`);
+  console.log(`${order}\n${level}\n${score}`);
 }
 
+// simulate a drawing
 function testDrawing(n) {
   const frequencies = [0, 0, 0, 0];
 
   for (let i = 0; i < n; i++) {
-    const drawned = draw();
+    const drawned = drawNewColor();
 
     switch (drawned) {
       case 0:

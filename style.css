@@ -20,7 +20,7 @@ body {
   width: 90vmin;
   height: 90vmin;
   padding: 3vmin; 
-  background-color: #fff;
+  background-color: lavenderblush;
 }
 
 /* .genius :hover {
@@ -47,7 +47,7 @@ body {
 
 .yellow {
   grid-area: yellow-area;
-  background-color: yellow;
+  background-color: yellowgreen;
   border-bottom-left-radius: 100%;
 }
 
@@ -60,4 +60,14 @@ body {
 .play {
   opacity: 0.3;
   transition: opacity 0.5s;
+}
+
+.status {
+  margin: 20px;
+  font-size: 28px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.level {
+  font-weight: bold;
 }
