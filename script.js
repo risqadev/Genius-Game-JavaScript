@@ -1,5 +1,3 @@
-// const colors = ['green', 'red', 'yellow', 'blue'];
-
 let order = [];
 let level = 0;
 let checkStep = 0;
