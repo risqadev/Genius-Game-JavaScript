@@ -4,8 +4,13 @@ let order = [];
 let level = 0;
 let checkStep = 0;
 
+const blinkDuration = 300;
+
+const geniusArea = document.querySelector('.genius');
+const levelDisplay = document.querySelector('.level');
+
 function drawNewColor() {
-  const drawned = Math.trunc(Math.random() * 4);
+  const drawned = (Math.random() * 4) << 0; // Bitwise left shift operation
 
   order.push(drawned);
 
@@ -16,16 +21,20 @@ function right() {
   if (checkStep < level) {
     checkStep++;
   } else {
-    level++;
-    checkStep = 0;
-    refreshLevelDisplay();
-    drawNewColor();
-    blinkOrder();
+    nextLevel();
   }
 }
 
+function nextLevel() {
+  level++;
+  checkStep = 0;
+  refreshLevelDisplay();
+  drawNewColor();
+  blinkOrder();
+}
+
 function wrong() {
-  const restartTheGame = confirm(`Você errou!\nNível alcançado: ${level}\nDeseja recomeçar?`);
+  const restartTheGame = confirm(`Você errou!\nNível alcançado: ${level + 1}\nDeseja recomeçar?`);
   clear();
   if (restartTheGame) {
     refreshLevelDisplay();
@@ -48,50 +57,52 @@ function newSelection(selected) {
   }
 }
 
-function blinkOne(element, i) {
+function blinkOne(element, i = 0) {
   setTimeout(() => {
     element.classList.add('play');
-  }, 100 + i * 1000);
+  }, blinkDuration * 2 * i);
 
   setTimeout(() => {
     element.classList.remove('play');
-  }, 610 + i * 1000);
+  }, blinkDuration * (1 + 2 * i));
 }
 
 function blinkOrder() {
   setTimeout(() => {
-
     for (let i = 0; i <= level; i++) {
       const element = document.getElementById(String(order[i]));
-
       blinkOne(element, i);
     }
+  }, blinkDuration * 3);
+}
 
-  }, 1200);
+function setBlinkDurationInStyle() {
+  document.querySelector('style').innerHTML = `.play {
+    transition-duration: ${blinkDuration}ms;
+  }`;
 }
 
 function refreshLevelDisplay() {
   levelDisplay.innerText = level + 1;
 }
 
-const geniusArea = document.querySelector('.genius');
-const levelDisplay = document.querySelector('.level');
-
 geniusArea.addEventListener('click', ({ target }) => {
-  blinkOne(target, 0);
+  blinkOne(target);
   newSelection(Number(target.id));
 });
 
+setBlinkDurationInStyle();
 drawNewColor();
 blinkOrder();
 
 
-
-/** FUNCTIONS FOR TESTS */
+/**
+ * FUNCTIONS FOR TESTS
+ */
 
 // print application state
 function printState() {
-  console.log(`${order}\n${level}\n${score}`);
+  console.log(`${order}\n${level}`);
 }
 
 // simulate a drawing
