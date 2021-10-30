@@ -17,6 +17,14 @@ function drawNewColor() {
   return drawned;
 }
 
+function newSelection(selected) {
+  if (selected === order[checkStep]) {
+    right();
+  } else {
+    wrong();
+  }
+}
+
 function right() {
   if (checkStep < level) {
     checkStep++;
@@ -47,14 +55,6 @@ function clear() {
   order = [];
   level = 0;
   checkStep = 0;
-}
-
-function newSelection(selected) {
-  if (selected === order[checkStep]) {
-    right();
-  } else {
-    wrong();
-  }
 }
 
 function blinkOne(element, i = 0) {
@@ -94,39 +94,3 @@ geniusArea.addEventListener('click', ({ target }) => {
 setBlinkDurationInStyle();
 drawNewColor();
 blinkOrder();
-
-
-/**
- * FUNCTIONS FOR TESTS
- */
-
-// print application state
-function printState() {
-  console.log(`${order}\n${level}`);
-}
-
-// simulate a drawing
-function testDrawing(n) {
-  const frequencies = [0, 0, 0, 0];
-
-  for (let i = 0; i < n; i++) {
-    const drawned = drawNewColor();
-
-    switch (drawned) {
-      case 0:
-        frequencies[0]++;
-        break;
-      case 1:
-        frequencies[1]++;
-        break;
-      case 2:
-        frequencies[2]++;
-        break;
-      case 3:
-        frequencies[3]++;
-        break;
-    }
-  }
-
-  return frequencies;
-}
